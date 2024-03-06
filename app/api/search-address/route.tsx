@@ -9,7 +9,7 @@ export async function GET(req: any) {
     BASE_URL +
       "?q=" +
       searchText +
-      "?language=en&limit=8&session_token=f2ba73bd-2f41-4924-99c5-b038b34fc716&country=US" +
+      "?language=en&limit=6&session_token=f2ba73bd-2f41-4924-99c5-b038b34fc716&country=US" +
       "&access_token=" +
       process.env.MAPBOX_ACCESS_TOKEN,
     {
@@ -19,5 +19,5 @@ export async function GET(req: any) {
     }
   );
   const searchResult = await res.json();
-  return NextResponse.json({ searchResult });
+  return NextResponse.json(searchResult);
 }
