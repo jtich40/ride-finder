@@ -1,5 +1,6 @@
 import React from "react";
 import Autocomplete from "./Autocomplete";
+import Cars from "./Cars";
 
 const Booking = () => {
   const screenHeight =
@@ -12,6 +13,7 @@ const Booking = () => {
         style={{ height: screenHeight }}
       >
         <Autocomplete />
+        <Cars />
       </div>
     </div>
   );
