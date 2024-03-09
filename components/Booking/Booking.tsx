@@ -1,6 +1,7 @@
 import React from "react";
 import Autocomplete from "./Autocomplete";
 import Cars from "./Cars";
+import Cards from "./Cards";
 
 const Booking = () => {
   const screenHeight =
@@ -14,6 +15,10 @@ const Booking = () => {
       >
         <Autocomplete />
         <Cars />
+        <Cards />
+        <button className="w-full bg-yellow-400 p-1 rounded-md mt-4">
+          Book
+        </button>
       </div>
     </div>
   );
