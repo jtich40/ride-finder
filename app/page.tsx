@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import Booking from "@/components/Booking/Booking";
+import MapBoxMap from "@/components/Map/MapBoxMap";
 
 export default function Home() {
   return (
@@ -9,7 +10,9 @@ export default function Home() {
         <div className="">
           <Booking />
         </div>
-        <div className="col-span-2">Map</div>
+        <div className="col-span-2">
+          <MapBoxMap />
+        </div>
       </div>
     </div>
   );
