@@ -10,6 +10,7 @@ const Cards = () => {
       <div className="grid grid-cols-5 mt-2 pl-2">
         {CardsList.map((item, index) => (
           <div
+            key={index}
             className={`w-[50px] border-[1px] flex items-center justify-center rounded-md cursor-pointer hover:border-yellow-400 hover:scale-110 transition-all ${
               activeCard == index ? "border-yellow-400 border-[2px]" : null
             } `}
