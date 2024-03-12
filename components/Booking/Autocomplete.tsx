@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
+const session_token = "f2ba73bd-2f41-4924-99c5-b038b34fc716";
+const MAPBOX_RETRIEVE_URL =
+  "https://api.mapbox.com/search/searchbox/v1/retrieve/";
 
 const Autocomplete = () => {
-  const [source, setSource] = useState<any>();
+  const [source, setSource] = useState<any>("");
   const [sourceChange, setSourceChange] = useState<any>(false);
   const [destinationChange, setDestinationChange] = useState<any>(false);
+
+  const [sourceCoordinates, setSourceCoordinates] = useState<any>();
 
   const [addressList, setAddressList] = useState<any>([]);
   const [destination, setDestination] = useState<any>();
@@ -27,6 +32,27 @@ const Autocomplete = () => {
     setAddressList(result);
   };
 
+  const onSourceAddressClick = async (item: any) => {
+    setSource(item.full_address);
+    setAddressList([]);
+    setSourceChange(false);
+
+    const res = await fetch(
+      MAPBOX_RETRIEVE_URL +
+        item.mapbox_id +
+        "?session_token=" +
+        session_token +
+        "&access_token=" +
+        process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
+    );
+
+    const result = await res.json();
+    setSourceCoordinates({
+      lng: result.features[0].geometry.coordinates[0],
+      lat: result.features[0].geometry.coordinates[1],
+    });
+  };
+
   return (
     <div className="mt-5">
       <div className="relative">
@@ -47,9 +73,7 @@ const Autocomplete = () => {
                 key={index}
                 className="p-3 hover:bg-gray-100 cursor-pointer"
                 onClick={() => {
-                  setSource(item.full_address);
-                  setAddressList([]);
-                  setSourceChange(false);
+                  onSourceAddressClick(item);
                 }}
               >
                 {item.full_address}
