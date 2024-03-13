@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { DestinationCoordinatesContext } from "@/context/DestinationCoordinatesContext";
+import { SourceCoordinatesContext } from "@/context/SourceCoordinatesContext";
+import React, { useContext, useEffect, useState } from "react";
 const session_token = "f2ba73bd-2f41-4924-99c5-b038b34fc716";
 const MAPBOX_RETRIEVE_URL =
   "https://api.mapbox.com/search/searchbox/v1/retrieve/";
@@ -6,12 +8,15 @@ const MAPBOX_RETRIEVE_URL =
 const Autocomplete = () => {
   const [source, setSource] = useState<any>("");
   const [sourceChange, setSourceChange] = useState<any>(false);
+  const [destination, setDestination] = useState<any>("");
   const [destinationChange, setDestinationChange] = useState<any>(false);
-
-  const [sourceCoordinates, setSourceCoordinates] = useState<any>();
-
   const [addressList, setAddressList] = useState<any>([]);
-  const [destination, setDestination] = useState<any>();
+  const { sourceCoordinates, setSourceCoordinates } = useContext(
+    SourceCoordinatesContext
+  );
+  const { destinationCoordinates, setDestinationCoordinates } = useContext(
+    DestinationCoordinatesContext
+  );
 
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
@@ -51,6 +56,29 @@ const Autocomplete = () => {
       lng: result.features[0].geometry.coordinates[0],
       lat: result.features[0].geometry.coordinates[1],
     });
+    console.log(result);
+  };
+
+  const onDestinationAddressClick = async (item: any) => {
+    setDestination(item.full_address);
+    setAddressList([]);
+    setDestinationChange(false);
+
+    const res = await fetch(
+      MAPBOX_RETRIEVE_URL +
+        item.mapbox_id +
+        "?session_token=" +
+        session_token +
+        "&access_token=" +
+        process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
+    );
+
+    const result = await res.json();
+    setDestinationCoordinates({
+      lng: result.features[0].geometry.coordinates[0],
+      lat: result.features[0].geometry.coordinates[1],
+    });
+    console.log(result);
   };
 
   return (
@@ -100,9 +128,7 @@ const Autocomplete = () => {
                 key={index}
                 className="p-3 hover:bg-gray-100 cursor-pointer"
                 onClick={() => {
-                  setDestination(item.full_address);
-                  setAddressList([]);
-                  setDestinationChange(false);
+                  onDestinationAddressClick(item);
                 }}
               >
                 {item.full_address}
