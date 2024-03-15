@@ -30,7 +30,7 @@ const Markers = () => {
           latitude={sourceCoordinates?.lat}
           anchor="bottom"
         >
-          <img src="./pin.png" className="w-10 h-10" />
+          <img src="./location.png" className="w-10 h-10" />
         </Marker>
       ) : null}
       {/* Destination Marker */}
@@ -40,7 +40,7 @@ const Markers = () => {
           latitude={destinationCoordinates?.lat}
           anchor="bottom"
         >
-          <img src="./pin.png" className="w-10 h-10" />
+          <img src="./location.png" className="w-10 h-10" />
         </Marker>
       ) : null}
     </div>
