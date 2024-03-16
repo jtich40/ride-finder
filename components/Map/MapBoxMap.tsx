@@ -6,6 +6,7 @@ import Markers from "./Markers";
 import { SourceCoordinatesContext } from "@/context/SourceCoordinatesContext";
 import { DestinationCoordinatesContext } from "@/context/DestinationCoordinatesContext";
 import { DirectionDataContext } from "@/context/DirectionDataContext";
+import MapBoxRoute from "./MapBoxRoute";
 const MAPBOX_DRIVING_ENDPOINT =
   "https://api.mapbox.com/directions/v5/mapbox/driving/";
 const session_token = "f2ba73bd-2f41-4924-99c5-b038b34fc716";
@@ -87,6 +88,11 @@ const MapBoxMap = () => {
             mapStyle="mapbox://styles/mapbox/streets-v9"
           >
             <Markers />
+            {directionData?.routes ? (
+              <MapBoxRoute
+                coordinates={directionData?.routes[0]?.geometry?.coordinates}
+              />
+            ) : null}
           </Map>
         ) : null}
       </div>
